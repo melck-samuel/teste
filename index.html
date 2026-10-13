@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Nosso para sempre 💍</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
+    font-family: "Playfair Display", Georgia, serif;
+    background: #000;
+    color: #fff;
+}
+
+body.accepted {
+    background: #09070b;
+    color: #fff;
+    padding-bottom: 88px;
+}
+
+.fundo-rotativo {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    display: none;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+body.accepted .fundo-rotativo { display: block; }
+
+.camada-fundo {
+    position: absolute;
+    inset: 0;
+    background-position: center;
+    background-size: cover;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.camada-fundo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(0,0,0,.48), rgba(0,0,0,.68));
+}
+
+.camada-fundo.ativa { opacity: 1; }
+
+.card {
+    width: min(92%, 650px);
+    padding: 30px 20px;
+    margin-block: auto;
+    position: relative;
+    z-index: 5;
+    animation: aparecer .9s ease;
+}
+
+img {
+    width: min(250px, 72vw);
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 12px 18px rgba(120,40,70,.16));
+}
+
+h1 {
+    margin: 5px 0 12px;
+    font-size: clamp(27px, 7vw, 40px);
+    line-height: 1.15;
+    color: #7b304d;
+}
+
+#question-container h1 { color: #fff; }
+
+.subtitle {
+    font-size: 16px;
+    color: #fff;
+    margin: 0 auto 22px;
+    max-width: 540px;
+    line-height: 1.6;
+}
+
+#mensagem-fuga {
+    min-height: 28px;
+    margin-bottom: 12px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+button {
+    border: 0;
+    border-radius: 999px;
+    padding: 14px 34px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 7px 18px rgba(90,30,50,.18);
+    transition: transform .2s, box-shadow .2s;
+}
+
+button:hover { transform: translateY(-2px) scale(1.04); }
+
+#btn-yes {
+    background: linear-gradient(135deg, #3b9958, #236b3d);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+#btn-yes::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,.5) 48%, transparent 72%);
+    transform: translateX(-120%);
+    animation: brilho 1.2s ease-out;
+}
+
+#btn-yes.pulse {
+    animation: simPulse .55s ease;
+}
+
+@keyframes simPulse {
+    0% { transform: scale(1); box-shadow: 0 7px 18px rgba(90,30,50,.18); }
+    30% { transform: scale(1.08) rotate(-1deg); box-shadow: 0 16px 26px rgba(59,153,88,.4); }
+    65% { transform: scale(0.98) rotate(1deg); }
+    100% { transform: scale(1); box-shadow: 0 7px 18px rgba(90,30,50,.18); }
+}
+
+@keyframes brilho {
+    to { transform: translateX(120%); }
+}
+
+#btn-no {
+    background: linear-gradient(135deg, #d54d57, #a72b3c);
+    color: white;
+    border: 2px solid #ef8a8e;
+}
+
+.hidden { display: none !important; }
+
+#success-container {
+    width: min(94%, 820px);
+    padding: 28px 18px 42px;
+    margin-block: auto;
+    position: relative;
+    z-index: 5;
+    animation: aparecer 1s ease;
+}
+
+#success-container h1 {
+    margin: 16px 0 14px;
+    font-size: 34px;
+    color: #fff;
+    text-shadow: 0 3px 12px rgba(0,0,0,.55);
+}
+
+#success-container p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #fff;
+    max-width: 580px;
+    margin: auto;
+    text-shadow: 0 2px 8px rgba(0,0,0,.55);
+}
+
+.contador-namoro {
+    width: min(100%, 460px);
+    margin: 24px auto 20px;
+    padding: 22px 18px 18px;
+    border: 1px solid rgba(240,213,138,.3);
+    border-radius: 14px;
+    background: rgba(15,12,18,.82);
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,.65);
+}
+
+.contador-titulo {
+    margin: 0 0 9px;
+    color: #fff;
+    font-size: 27px;
+    line-height: 1.2;
+}
+
+.contador-data {
+    margin: 0 0 18px;
+    color: #ded7df;
+    font-size: 14px;
+}
+
+.contador-unidades {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto 16px;
+}
+
+.contador-unidade {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    width: 112px;
+    min-height: 112px;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 14px;
+    background: rgba(255,255,255,.055);
+}
+
+.contador-unidade strong {
+    color: #f0d58a;
+    font-size: 48px;
+    line-height: 1;
+}
+
+.contador-unidade span {
+    margin-top: 6px;
+    color: #e9a9c2;
+    font-size: 11px;
+}
+
+.contador-relogio {
+    width: fit-content;
+    min-width: 184px;
+    margin: 0 auto 16px;
+    padding: 10px 18px;
+    border: 1px solid rgba(233,169,194,.28);
+    border-radius: 999px;
+    background: rgba(233,169,194,.08);
+    color: #f0d58a;
+    font-size: 24px;
+    font-variant-numeric: tabular-nums;
+}
+
+.contador-total-dias {
+    margin: 0;
+    color: #ded7df;
+    font-size: 14px;
+}
+
+.contador-total-dias strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+.player-musica {
+    position: fixed;
+    z-index: 9999;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 34px;
+    column-gap: 10px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 8px max(14px, calc((100vw - 640px) / 2));
+    border: 1px solid rgba(255,255,255,.2);
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    background: rgba(10,11,15,.98);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    text-align: left;
+    box-shadow: 0 12px 30px rgba(0,0,0,.3);
+}
+
+.player-capa {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+    border-radius: 12px;
+    object-fit: cover;
+    filter: none;
+}
+
+.player-conteudo {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+}
+
+.player-titulo {
+    overflow: hidden;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.player-artista {
+    margin-top: 2px;
+    color: #c5c5cc;
+    font-size: 12px;
+}
+
+.player-botao {
+    display: inline-grid;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    background: #24252d;
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    box-shadow: none;
+}
+
+.player-botao:hover { transform: scale(1.06); }
+
+.player-botao-principal {
+    background: #f1d36b;
+    color: #191919;
+}
+
+#player-toggle {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+}
+
+.player-status {
+    min-height: 0;
+    margin-top: 2px;
+    color: #f1d36b;
+    font-size: 10px;
+}
+
+.faixa-aceitou {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 16px;
+    padding: 11px 18px;
+    border: 2px solid rgba(255,255,255,.8);
+    border-radius: 5px;
+    background: linear-gradient(100deg, #e84265, #f47b69, #e7ae42);
+    color: #fff;
+    font-size: 26px;
+    font-weight: bold;
+    box-shadow: 0 8px 24px rgba(0,0,0,.28);
+    animation: faixa-entrada .7s cubic-bezier(.2,.8,.2,1) both, faixa-pulso 1.8s .7s ease-in-out 3;
+}
+
+.faixa-aceitou .faixa-estrelas {
+    color: #fff4bd;
+    font-size: 17px;
+    white-space: nowrap;
+}
+
+.foto-cena {
+    position: relative;
+    isolation: isolate;
+    display: block;
+    width: min(280px, 76vw);
+    height: 280px;
+    margin: 0 auto 14px;
+    overflow: visible;
+    border: 4px solid rgba(255,255,255,.9);
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.38);
+}
+
+.foto-reacao {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    aspect-ratio: 1;
+    object-fit: cover;
+    margin: 0;
+    border: 0;
+    border-radius: 20px;
+    filter: none;
+}
+
+.fogos-container {
+    position: fixed;
+    z-index: 4;
+    inset: 0;
+    display: none;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+body.accepted .fogos-container { display: block; }
+
+.fogo-burst {
+    position: absolute;
+    left: var(--fogo-x);
+    top: var(--fogo-y);
+    width: 0;
+    height: 0;
+}
+
+.fogo-burst::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 8px 3px var(--fogo-cor), 0 0 20px 8px rgba(255,255,255,.65);
+    animation: fogo-flash .45s ease-out forwards;
+}
+
+.fogo-centelha {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 11px;
+    border-radius: 999px;
+    background: var(--fogo-cor);
+    box-shadow: 0 0 10px var(--fogo-cor), 0 0 16px rgba(255,255,255,.55);
+    animation: fogo-explodir 1.15s cubic-bezier(.14,.72,.25,1) forwards;
+}
+
+@keyframes fogo-flash {
+    0% { opacity: 0; transform: translate(-50%,-50%) scale(.2); }
+    18% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%,-50%) scale(2.2); }
+}
+
+@keyframes fogo-explodir {
+    0% { opacity: 0; transform: translate(-50%,-50%) rotate(var(--fogo-ang)) translateY(0) scale(.35); }
+    14% { opacity: 1; }
+    58% { opacity: .95; }
+    100% { opacity: 0; transform: translate(-50%,-50%) rotate(var(--fogo-ang)) translateY(var(--fogo-dist)) scale(.2); }
+}
+
+.foto-reacao.foto-zoom { animation: foto-zoom .9s cubic-bezier(.2,.8,.2,1) both; }
+.foto-reacao.foto-comemorando { animation: foto-comemora .72s ease-in-out; }
+
+.nota-sucesso,
+.credito-sucesso {
+    margin-top: 16px !important;
+    color: #fff !important;
+    font-size: 14px !important;
+}
+
+#album-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin: 24px auto 0;
+    max-width: 680px;
+}
+
+.album-item {
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(146,80,103,0.15);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 18px rgba(94, 38, 56, 0.08);
+    transform: perspective(900px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg)) translateY(var(--lift, 0));
+    transition: transform .25s ease, box-shadow .25s ease, opacity .45s ease;
+}
+
+.album-item.aguardando-entrega {
+    opacity: 0;
+    transform: perspective(900px) scale(.92) translateY(14px);
+}
+
+.album-ajudante {
+    position: absolute;
+    z-index: 3;
+    width: 68px;
+    height: 108px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%);
+    transition: left 1.05s cubic-bezier(.22,.75,.25,1), top 1.05s cubic-bezier(.22,.75,.25,1), opacity .3s ease;
+}
+
+.album-ajudante.visivel { opacity: 1; }
+
+.ajudante-cabeca {
+    position: absolute;
+    top: 0;
+    left: 2px;
+    width: 64px;
+    height: 83px;
+    margin: 0;
+    border-radius: 0;
+    object-fit: fill;
+    clip-path: ellipse(41.5% 34% at 41% 37%);
+    filter: none;
+}
+
+.ajudante-tronco,
+.ajudante-braco,
+.ajudante-perna {
+    position: absolute;
+    background: #fff;
+    border-radius: 3px;
+}
+
+.ajudante-tronco {
+    top: 57px;
+    left: 28px;
+    width: 3px;
+    height: 24px;
+}
+
+.ajudante-braco {
+    top: 62px;
+    left: 29px;
+    width: 20px;
+    height: 3px;
+    transform-origin: 2px 50%;
+}
+
+.ajudante-braco-esquerdo { transform: rotate(145deg); }
+.ajudante-braco-direito { transform: rotate(35deg); }
+
+.ajudante-perna {
+    top: 80px;
+    left: 28px;
+    width: 3px;
+    height: 25px;
+    transform-origin: 50% 2px;
+}
+
+.ajudante-perna-esquerda { transform: rotate(25deg); }
+.ajudante-perna-direita { transform: rotate(-25deg); }
+
+.album-ajudante.andando .ajudante-perna-esquerda {
+    animation: passos-esquerda .36s ease-in-out infinite alternate;
+}
+
+.album-ajudante.andando .ajudante-perna-direita {
+    animation: passos-direita .36s ease-in-out infinite alternate;
+}
+
+.ajudante-foto {
+    position: absolute;
+    top: 60px;
+    right: -13px;
+    width: 24px;
+    height: 32px;
+    padding: 2px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(50,20,30,.3);
+    transform: rotate(9deg);
+    transition: opacity .4s ease, transform .4s ease;
+}
+
+.ajudante-foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    border-radius: 1px;
+    object-fit: cover;
+    filter: none;
+}
+
+.album-ajudante.depositando .ajudante-foto {
+    opacity: 0;
+    transform: translateY(12px) scale(.65) rotate(0);
+}
+
+@keyframes passos-esquerda {
+    to { transform: rotate(-25deg); }
+}
+
+@keyframes passos-direita {
+    to { transform: rotate(25deg); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .album-item:hover {
+        --lift: -5px;
+        box-shadow: 0 18px 28px rgba(94, 38, 56, 0.2);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .album-item {
+        transform: none;
+        transition: none;
+    }
+
+    .album-ajudante,
+    .album-ajudante.andando .ajudante-perna-esquerda,
+    .album-ajudante.andando .ajudante-perna-direita {
+        transition: none;
+        animation: none;
+    }
+
+    .coracao,
+    .faixa-aceitou,
+    .foto-reacao {
+        animation: none !important;
+    }
+
+    .fogo-burst::before,
+    .fogo-centelha { animation: none !important; }
+}
+
+@media (max-width: 520px) {
+    #success-container { padding: 20px 12px 32px; }
+    #success-container h1 { font-size: 28px; }
+    #success-container p { font-size: 16px; }
+    .faixa-aceitou { gap: 7px; padding: 10px 12px; font-size: 22px; }
+    .foto-cena { width: min(240px, 72vw); height: min(240px, 72vw); }
+    .contador-namoro { padding: 19px 12px 16px; }
+    .contador-titulo { font-size: 23px; }
+    .contador-unidades { gap: 9px; }
+    .contador-unidade { width: min(112px, 40vw); min-height: 100px; }
+    .contador-unidade strong { font-size: 42px; }
+    .contador-relogio { font-size: 22px; }
+    .player-musica { grid-template-columns: 44px minmax(0, 1fr) 32px; column-gap: 9px; padding: 7px 10px; }
+    .player-capa { width: 44px; height: 44px; }
+    .player-titulo { font-size: 14px; }
+    .player-artista { font-size: 11px; }
+    .player-status { font-size: 9px; }
+    #player-toggle { width: 32px; height: 32px; flex-basis: 32px; }
+}
+
+.album-item img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    margin: 0;
+    border-radius: 0;
+    filter: none;
+}
+
+.album-item span {
+    display: block;
+    padding: 10px 8px;
+    font-size: 12px;
+    color: #6d3d53;
+    background: rgba(255,255,255,0.6);
+}
+
+#confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.confete {
+    position: fixed;
+    top: -18px;
+    z-index: 11;
+    pointer-events: none;
+    animation: confete-cair var(--duracao) linear var(--atraso) forwards;
+}
+
+.particula-explosao {
+    position: fixed;
+    z-index: 13;
+    width: 10px;
+    height: 10px;
+    border-radius: var(--formato, 50%);
+    background: var(--cor);
+    pointer-events: none;
+    animation: explosao-particula .95s cubic-bezier(.15,.7,.25,1) forwards;
+}
+
+.anel-comemoracao {
+    position: fixed;
+    z-index: 13;
+    width: 23px;
+    height: 12px;
+    border: 3px solid #ffd96a;
+    border-top-color: #fff3bd;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255,217,106,.9);
+    pointer-events: none;
+    animation: anel-voar 1.65s cubic-bezier(.18,.72,.25,1) forwards;
+}
+
+.anel-comemoracao::before {
+    content: "";
+    position: absolute;
+    inset: 2px 7px 0 -8px;
+    border: 2px solid #ffe9a0;
+    border-radius: 50%;
+}
+
+.anel-comemoracao::after {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 1px;
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    border: 1px solid #fff5c9;
+    background: #fff;
+}
+
+.coracao-subindo {
+    position: fixed;
+    bottom: -34px;
+    z-index: 9;
+    color: var(--coracao-cor);
+    font-size: 26px;
+    line-height: 1;
+    pointer-events: none;
+    text-shadow: 0 2px 8px rgba(0,0,0,.28);
+    animation: coracao-sobe var(--duracao) ease-out forwards;
+}
+
+@keyframes faixa-entrada {
+    from { opacity: 0; transform: translateY(-24px) rotate(-3deg) scale(.8); }
+    to { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+}
+
+@keyframes faixa-pulso {
+    50% { transform: scale(1.04) rotate(1deg); }
+}
+
+@keyframes foto-zoom {
+    from { opacity: .5; transform: scale(.55) rotate(-5deg); }
+    75% { opacity: 1; transform: scale(1.08) rotate(2deg); }
+    to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes foto-comemora {
+    20% { transform: scale(1.07) rotate(-3deg); }
+    45% { transform: scale(1.08) rotate(3deg); }
+    70% { transform: scale(1.04) rotate(-2deg); }
+}
+
+@keyframes confete-cair {
+    to { opacity: 0; transform: translate3d(var(--deriva), 110vh, 0) rotate(var(--rotacao)); }
+}
+
+@keyframes explosao-particula {
+    0% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--direcao)) translateX(0) scale(.2); }
+    18% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--direcao)) translateX(var(--distancia)) scale(.7); }
+}
+
+@keyframes anel-voar {
+    0% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--direcao)) translateY(0) scale(.25); }
+    18% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--direcao)) translateY(var(--distancia)) scale(1.05); }
+}
+
+@keyframes coracao-sobe {
+    0% { opacity: 0; transform: translate3d(0, 0, 0) scale(.55) rotate(-12deg); }
+    14% { opacity: .95; }
+    100% { opacity: 0; transform: translate3d(var(--deriva), -112vh, 0) scale(1.25) rotate(18deg); }
+}
+
+.fall {
+    position: absolute;
+    top: -10vh;
+    animation: cair linear forwards;
+}
+
+@keyframes cair {
+    to {
+        transform: translateY(115vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: scale(.92) translateY(15px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.coracao {
+    position: fixed;
+    color: rgba(166, 54, 91, .18);
+    font-size: 28px;
+    animation: flutuar 7s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes flutuar {
+    0%,100% { transform: translateY(15px); opacity: .2; }
+    50% { transform: translateY(-25px); opacity: .55; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="coracao" style="left:8%;top:14%;">♡</div>
+<div class="coracao" style="right:10%;top:22%;animation-delay:2s;">♡</div>
+<div class="coracao" style="left:15%;bottom:15%;animation-delay:4s;">♡</div>
+<div class="coracao" style="right:16%;bottom:12%;animation-delay:1s;">♡</div>
+
+<div id="fundo-rotativo" class="fundo-rotativo" aria-hidden="true">
+    <div class="camada-fundo"></div>
+    <div class="camada-fundo"></div>
+</div>
+<div id="fogos-container" class="fogos-container" aria-hidden="true"></div>
+
+<audio id="musica" preload="auto">
+    <source src="Careless Whisper(MP3_320K).mp3" type="audio/mpeg">
+</audio>
+<audio id="som-sim" preload="auto">
+    <source src="aleluia ao clicar sim novo.mp3" type="audio/mpeg">
+</audio>
+
+<div id="question-container" class="card">
+    <img src="./melck/melck%20biquinho-limpo.png" alt="Melck fazendo biquinho">
+
+    <h1>Você aceita casar comigo antes que eu fique mais nervoso?</h1>
+
+    <p class="subtitle">
+        Prometo amor, parceria e dividir a sobremesa... depois de roubar só uma colherada.
+        Bora viver essa aventura juntinhos?
+    </p>
+
+    <p id="mensagem-fuga"></p>
+
+    <div class="buttons">
+        <button id="btn-yes">SIM</button>
+        <button id="btn-no">NÃO</button>
+    </div>
+</div>
+
+<div id="success-container" class="hidden">
+    <div class="faixa-aceitou" aria-label="Ela aceitou">
+        <span>ELA ACEITOU!!!</span>
+        <span class="faixa-estrelas" aria-hidden="true">★ ✦ ★</span>
+    </div>
+
+    <div class="foto-cena">
+        <img id="foto-reacao" class="foto-reacao" src="./melck/segurando%20no%20bra%C3%A7o.webp" alt="Melck segurando a noiva no colo">
+    </div>
+
+    <section class="contador-namoro" aria-label="Tempo de namoro">
+        <h2 class="contador-titulo">Para o amor da minha vida!</h2>
+        <p class="contador-data">Juntos desde <time datetime="2025-04-27">27 de abril de 2025</time></p>
+        <div class="contador-unidades" aria-live="off">
+            <div class="contador-unidade"><strong id="meses-namoro">0</strong><span>MESES</span></div>
+            <div class="contador-unidade"><strong id="dias-mes-namoro">0</strong><span>DIAS</span></div>
+        </div>
+        <div id="tempo-relacionamento" class="contador-relogio" aria-label="Horas, minutos e segundos de namoro">00:00:00</div>
+        <p class="contador-total-dias">São <strong id="dias-namoro-total">0</strong> dias de amor</p>
+    </section>
+
+    <section class="player-musica" aria-label="Player de Careless Whisper">
+        <img class="player-capa" src="./capa%20da%20musica.jpg" alt="Capa de Careless Whisper, de George Michael">
+        <div class="player-conteudo">
+            <div class="player-titulo">Careless Whisper</div>
+            <div class="player-artista">George Michael</div>
+            <div id="player-status" class="player-status" aria-live="polite">Tocando agora</div>
+        </div>
+        <button id="player-toggle" class="player-botao player-botao-principal" type="button" aria-label="Pausar música" title="Pausar música">Ⅱ</button>
+    </section>
+
+    <div id="album-container" class="hidden">
+        <div class="album-item">
+            <img src="./fotos/IMG-20250515-WA0036.jpg" alt="Foto nossa 1" loading="lazy">
+        </div>
+        <div class="album-item">
+            <img src="./fotos/IMG-20250706-WA0053.jpg" alt="Foto nossa 2" loading="lazy">
+        </div>
+        <div class="album-item">
+            <img src="./fotos/IMG-20250811-WA0019.jpg" alt="Foto nossa 3" loading="lazy">
+        </div>
+        <div class="album-item">
+            <img src="./fotos/IMG-20250906-WA0047.jpg" alt="Foto nossa 4" loading="lazy">
+        </div>
+        <div class="album-item">
+            <img src="./fotos/IMG-20250907-WA0018.jpg" alt="Foto nossa 5" loading="lazy">
+        </div>
+        <div class="album-item">
+            <img src="./fotos/IMG-20260905-WA0017.jpg" alt="Foto nossa 6" loading="lazy">
+        </div>
+        <div class="album-item">
+            <img src="./fotos/IMG_20250308_220458.jpg" alt="Foto nossa 7" loading="lazy">
+        </div>
+        <div class="album-item">
+            <img src="./fotos/IMG-20250706-WA0024.jpg" alt="Foto nossa 8" loading="lazy">
+        </div>
+    </div>
+
+    <p class="nota-sucesso">🎷 Agora deixa o sax tocar... 😂💍</p>
+    <p class="credito-sucesso">Criado por Melck Samuel</p>
+</div>
+
+<div id="confetti-container" aria-hidden="true"></div>
+
+<script>
+const btnYes = document.getElementById("btn-yes");
+const btnNo = document.getElementById("btn-no");
+const mensagem = document.getElementById("mensagem-fuga");
+const question = document.getElementById("question-container");
+const fotoMelck = question.querySelector("img");
+const success = document.getElementById("success-container");
+const confetti = document.getElementById("confetti-container");
+const album = document.getElementById("album-container");
+const fotosAlbum = [...album.querySelectorAll(".album-item img")];
+const camadasFundo = [...document.querySelectorAll(".camada-fundo")];
+const musica = document.getElementById("musica");
+const playerToggle = document.getElementById("player-toggle");
+const playerStatus = document.getElementById("player-status");
+let indiceFotoFundo = 0;
+let camadaFundoAtiva = 0;
+let intervaloFundo = null;
+
+function atualizarPlayer() {
+    playerToggle.textContent = musica.paused ? "▶" : "Ⅱ";
+    playerToggle.setAttribute("aria-label", musica.paused ? "Tocar música" : "Pausar música");
+    playerToggle.title = musica.paused ? "Tocar música" : "Pausar música";
+}
+
+function iniciarFundoRotativo() {
+    if (fotosAlbum.length === 0 || camadasFundo.length < 2) return;
+    if (intervaloFundo) clearInterval(intervaloFundo);
+
+    indiceFotoFundo = 0;
+    camadaFundoAtiva = 0;
+    camadasFundo.forEach((camada) => camada.classList.remove("ativa"));
+    camadasFundo[camadaFundoAtiva].style.backgroundImage = `url("${fotosAlbum[indiceFotoFundo].src}")`;
+    camadasFundo[camadaFundoAtiva].classList.add("ativa");
+
+    intervaloFundo = setInterval(() => {
+        indiceFotoFundo = (indiceFotoFundo + 1) % fotosAlbum.length;
+        const proximaCamada = (camadaFundoAtiva + 1) % camadasFundo.length;
+        camadasFundo[proximaCamada].style.backgroundImage = `url("${fotosAlbum[indiceFotoFundo].src}")`;
+        camadasFundo[proximaCamada].classList.add("ativa");
+        camadasFundo[camadaFundoAtiva].classList.remove("ativa");
+        camadaFundoAtiva = proximaCamada;
+    }, 3000);
+}
+
+musica.volume = 1;
+musica.addEventListener("play", atualizarPlayer);
+musica.addEventListener("pause", atualizarPlayer);
+musica.addEventListener("ended", atualizarPlayer);
+
+playerToggle.addEventListener("click", () => {
+    if (musica.paused) {
+        playerStatus.textContent = "";
+        musica.play().catch(() => {
+            playerStatus.textContent = "Não foi possível iniciar o áudio neste navegador.";
+        });
+    } else {
+        musica.pause();
+    }
+});
+
+function atualizarDiasNamoro() {
+    const agora = new Date();
+    const inicio = new Date(2025, 3, 27);
+    const inicioMesAtual = new Date(inicio);
+    let meses = (agora.getFullYear() - inicio.getFullYear()) * 12 + agora.getMonth() - inicio.getMonth();
+
+    inicioMesAtual.setMonth(inicio.getMonth() + meses);
+    if (inicioMesAtual > agora) meses--;
+
+    const marcoMes = new Date(inicio);
+    marcoMes.setMonth(inicio.getMonth() + meses);
+
+    const milissegundosDesdeMarco = Math.max(0, agora - marcoMes);
+    const dias = Math.floor(milissegundosDesdeMarco / 86400000);
+    const segundosRestantes = Math.floor((milissegundosDesdeMarco % 86400000) / 1000);
+    const horas = Math.floor(segundosRestantes / 3600);
+    const minutos = Math.floor((segundosRestantes % 3600) / 60);
+    const segundos = segundosRestantes % 60;
+    const diasTotais = Math.max(0, Math.floor((agora - inicio) / 86400000));
+
+    document.getElementById("meses-namoro").textContent = new Intl.NumberFormat("pt-BR").format(Math.max(0, meses));
+    document.getElementById("dias-mes-namoro").textContent = new Intl.NumberFormat("pt-BR").format(dias);
+    document.getElementById("dias-namoro-total").textContent = new Intl.NumberFormat("pt-BR").format(diasTotais);
+    document.getElementById("tempo-relacionamento").textContent = [horas, minutos, segundos].map((valor) => String(valor).padStart(2, "0")).join(":");
+}
+
+atualizarDiasNamoro();
+setInterval(atualizarDiasNamoro, 1000);
+
+album.querySelectorAll(".album-item").forEach((item) => {
+    item.addEventListener("pointermove", (event) => {
+        if (event.pointerType !== "mouse") return;
+
+        const bounds = item.getBoundingClientRect();
+        const horizontalPosition = (event.clientX - bounds.left) / bounds.width - 0.5;
+        const verticalPosition = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+        item.style.setProperty("--tilt-x", `${horizontalPosition * 8}deg`);
+        item.style.setProperty("--tilt-y", `${verticalPosition * -8}deg`);
+    });
+
+    item.addEventListener("pointerleave", () => {
+        item.style.setProperty("--tilt-x", "0deg");
+        item.style.setProperty("--tilt-y", "0deg");
+    });
+});
+
+const frases = [
+    "Tem certeza? 🥺",
+    "Pensa com carinho... ❤️",
+    "Esse botão NÃO está colaborando 😂",
+    "Olha o anel esperando... 💍",
+    "Você sabe que a resposta é SIM. 😌❤️",
+    "Não foge de mim não! 😂",
+    "Eu preparei tudo com amor... 🥹",
+    "Tenha calma moreno...",
+    "Última chance de dizer SIM! 💍"
+];
+
+let tentativas = 0;
+let comemoracaoIniciada = false;
+
+btnNo.addEventListener("mouseover", fugir);
+btnNo.addEventListener("touchstart", fugir);
+
+function fugir(e) {
+    if (e) e.preventDefault();
+
+    tentativas++;
+    if (tentativas === 1) {
+        fotoMelck.src = "./melck/ah.png";
+        fotoMelck.alt = "Melck surpreso com a tentativa de dizer não";
+    } else {
+        fotoMelck.src = "./melck/fugindo.png";
+        fotoMelck.alt = "Melck fugindo do botão não";
+    }
+
+    mensagem.textContent = frases[Math.min(tentativas - 1, frases.length - 1)];
+
+    const margem = 25;
+    const maxX = Math.max(0, window.innerWidth - btnNo.offsetWidth - margem * 2);
+    const maxY = Math.max(0, window.innerHeight - btnNo.offsetHeight - margem * 2);
+
+    btnNo.style.position = "fixed";
+    btnNo.style.left = (margem + Math.random() * maxX) + "px";
+    btnNo.style.top = (margem + Math.random() * maxY) + "px";
+}
+
+btnYes.addEventListener("click", () => {
+    if (comemoracaoIniciada) return;
+    comemoracaoIniciada = true;
+    const areaBotao = btnYes.getBoundingClientRect();
+    const origemExplosao = {
+        x: areaBotao.left + areaBotao.width / 2,
+        y: areaBotao.top + areaBotao.height / 2
+    };
+
+    btnYes.classList.remove("pulse");
+    void btnYes.offsetWidth;
+    btnYes.classList.add("pulse");
+
+    const somSim = document.getElementById("som-sim");
+    somSim.currentTime = 0;
+    somSim.play().catch(() => {
+        mensagem.textContent = "Toque na página para ativar o som de aleluia 🎶✨";
+    });
+
+    const fadeOut = setInterval(() => {
+        if (somSim.volume > 0.01) {
+            somSim.volume = Math.max(0.01, somSim.volume - 0.01);
+        } else {
+            clearInterval(fadeOut);
+            somSim.pause();
+            somSim.currentTime = 0;
+            somSim.volume = 1;
+        }
+    }, 120);
+
+    const musica = document.getElementById("musica");
+    musica.currentTime = 0;
+    musica.play().catch(() => {
+        playerStatus.textContent = "Toque no play para iniciar a música.";
+        atualizarPlayer();
+    });
+
+    question.classList.add("hidden");
+    success.classList.remove("hidden");
+    document.body.classList.add("accepted");
+    album.classList.remove("hidden");
+    iniciarFundoRotativo();
+    iniciarComemoracao(origemExplosao);
+    organizarAlbum();
+});
+async function organizarAlbum() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const fotos = [...album.querySelectorAll(".album-item")];
+    const ajudante = document.createElement("div");
+    ajudante.className = "album-ajudante";
+    ajudante.setAttribute("aria-hidden", "true");
+    ajudante.innerHTML = `
+        <img class="ajudante-cabeca" src="./stickman/melck%20palito.png" alt="">
+        <span class="ajudante-tronco"></span>
+        <span class="ajudante-braco ajudante-braco-esquerdo"></span>
+        <span class="ajudante-braco ajudante-braco-direito"></span>
+        <span class="ajudante-perna ajudante-perna-esquerda"></span>
+        <span class="ajudante-perna ajudante-perna-direita"></span>
+        <span class="ajudante-foto"><img alt=""></span>
+    `;
+
+    fotos.forEach((foto) => foto.classList.add("aguardando-entrega"));
+    album.appendChild(ajudante);
+
+    const primeiraFoto = fotos[0].getBoundingClientRect();
+    const areaAlbum = album.getBoundingClientRect();
+    ajudante.style.left = "-18px";
+    ajudante.style.top = `${primeiraFoto.top - areaAlbum.top + primeiraFoto.height - ajudante.offsetHeight}px`;
+    ajudante.querySelector(".ajudante-foto img").src = fotos[0].querySelector("img").src;
+
+    await new Promise(requestAnimationFrame);
+    ajudante.classList.add("visivel", "andando");
+
+    for (const foto of fotos) {
+        const imagem = foto.querySelector("img");
+        const posicao = foto.getBoundingClientRect();
+        const areaAtual = album.getBoundingClientRect();
+
+        ajudante.querySelector(".ajudante-foto img").src = imagem.src;
+        ajudante.classList.remove("depositando");
+        ajudante.classList.add("andando");
+        ajudante.style.left = `${posicao.left - areaAtual.left + posicao.width / 2}px`;
+        ajudante.style.top = `${posicao.top - areaAtual.top + posicao.height - ajudante.offsetHeight}px`;
+
+        await new Promise((concluir) => setTimeout(concluir, 1100));
+        ajudante.classList.remove("andando");
+        ajudante.classList.add("depositando");
+        foto.classList.remove("aguardando-entrega");
+        await new Promise((concluir) => setTimeout(concluir, 450));
+    }
+
+    ajudante.style.left = `${album.clientWidth + 35}px`;
+    ajudante.style.opacity = "0";
+    setTimeout(() => ajudante.remove(), 1200);
+}
+
+function iniciarComemoracao(origem) {
+    const fotoReacao = document.getElementById("foto-reacao");
+    const movimentoReduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (movimentoReduzido) return;
+
+    fotoReacao.classList.remove("foto-zoom", "foto-comemorando");
+    void fotoReacao.offsetWidth;
+    fotoReacao.classList.add("foto-zoom");
+    setTimeout(() => {
+        fotoReacao.classList.remove("foto-zoom");
+        void fotoReacao.offsetWidth;
+        fotoReacao.classList.add("foto-comemorando");
+    }, 950);
+
+    criarFogosSobreGif();
+    criarExplosao(origem);
+    criarAnéis(origem);
+    criarChuva();
+    criarCoracoesSubindo();
+}
+
+function criarFogosSobreGif() {
+    const fogos = document.getElementById("fogos-container");
+    const foto = document.querySelector(".foto-cena");
+    const cores = ["#ffd166", "#ff6d91", "#fff", "#8fe9d2", "#f0a6ff"];
+
+    function escolherOrigemForaDaFoto() {
+        const fotoRect = foto.getBoundingClientRect();
+        const playerHeight = document.querySelector(".player-musica").getBoundingClientRect().height;
+        const limiteY = Math.min(fotoRect.top - 55, window.innerHeight - playerHeight - 20);
+        if (limiteY <= 24) return null;
+
+        const y = 18 + Math.random() * (limiteY - 24);
+        return {
+            x: 18 + Math.random() * (window.innerWidth - 36),
+            y,
+            distancia: Math.max(6, Math.min(44, fotoRect.top - y - 12))
+        };
+    }
+
+    function explodir() {
+        const burst = document.createElement("span");
+        const cor = cores[Math.floor(Math.random() * cores.length)];
+        const origem = escolherOrigemForaDaFoto();
+        if (!origem) return;
+        burst.className = "fogo-burst";
+        burst.style.setProperty("--fogo-x", `${origem.x}px`);
+        burst.style.setProperty("--fogo-y", `${origem.y}px`);
+        burst.style.setProperty("--fogo-cor", cor);
+
+        for (let indice = 0; indice < 22; indice++) {
+            const centelha = document.createElement("span");
+            centelha.className = "fogo-centelha";
+            centelha.style.setProperty("--fogo-ang", `${indice * (360 / 22) + Math.random() * 10}deg`);
+            centelha.style.setProperty("--fogo-dist", `${origem.distancia * (.7 + Math.random() * .3)}px`);
+            centelha.style.setProperty("--fogo-cor", cores[Math.floor(Math.random() * cores.length)]);
+            burst.appendChild(centelha);
+        }
+
+        fogos.appendChild(burst);
+        setTimeout(() => burst.remove(), 1050);
+    }
+
+    explodir();
+    setInterval(explodir, 850);
+}
+
+function criarExplosao(origem) {
+    const cores = ["#ff477e", "#ffd166", "#72e6b1", "#74c9ff", "#fff", "#ff9966"];
+
+    for (let indice = 0; indice < 34; indice++) {
+        const particula = document.createElement("span");
+        particula.className = "particula-explosao";
+        particula.style.left = `${origem.x}px`;
+        particula.style.top = `${origem.y}px`;
+        particula.style.setProperty("--cor", cores[indice % cores.length]);
+        particula.style.setProperty("--direcao", `${indice * (360 / 34)}deg`);
+        particula.style.setProperty("--distancia", `${75 + Math.random() * 125}px`);
+        particula.style.setProperty("--formato", indice % 2 ? "2px" : "50%");
+        confetti.appendChild(particula);
+        particula.addEventListener("animationend", () => particula.remove(), { once: true });
+    }
+}
+
+function criarAnéis(origem) {
+    for (let indice = 0; indice < 12; indice++) {
+        const anel = document.createElement("span");
+        anel.className = "anel-comemoracao";
+        anel.style.left = `${origem.x}px`;
+        anel.style.top = `${origem.y}px`;
+        anel.style.setProperty("--direcao", `${indice * 30}deg`);
+        anel.style.setProperty("--distancia", `${65 + Math.random() * 115}px`);
+        confetti.appendChild(anel);
+        anel.addEventListener("animationend", () => anel.remove(), { once: true });
+    }
+}
+
+function criarCoracoesSubindo() {
+    const cores = ["#ff6d91", "#fff", "#ffd166", "#ff9ac0"];
+    let quantidade = 0;
+    const intervalo = setInterval(() => {
+        const coracao = document.createElement("span");
+        coracao.className = "coracao-subindo";
+        coracao.textContent = "♥";
+        coracao.style.left = `${Math.random() * 94 + 3}vw`;
+        coracao.style.setProperty("--coracao-cor", cores[quantidade % cores.length]);
+        coracao.style.setProperty("--duracao", `${4 + Math.random() * 1.5}s`);
+        coracao.style.setProperty("--deriva", `${Math.random() * 100 - 50}px`);
+        confetti.appendChild(coracao);
+        coracao.addEventListener("animationend", () => coracao.remove(), { once: true });
+
+        quantidade++;
+        if (quantidade >= 16) clearInterval(intervalo);
+    }, 260);
+}
+
+function criarChuva() {
+    const cores = ["#ff477e", "#ffd166", "#72e6b1", "#74c9ff", "#fff", "#ff9966", "#c6a0ff"];
+    let rodada = 0;
+    const intervalo = setInterval(() => {
+        for (let indice = 0; indice < 6; indice++) {
+            const pedaco = document.createElement("span");
+            pedaco.className = "confete";
+            pedaco.style.left = `${Math.random() * 100}vw`;
+            pedaco.style.width = `${6 + Math.random() * 7}px`;
+            pedaco.style.height = `${9 + Math.random() * 9}px`;
+            pedaco.style.background = cores[Math.floor(Math.random() * cores.length)];
+            pedaco.style.borderRadius = Math.random() > .5 ? "50%" : "2px";
+            pedaco.style.setProperty("--duracao", `${3.8 + Math.random() * 1.5}s`);
+            pedaco.style.setProperty("--atraso", `${Math.random() * .35}s`);
+            pedaco.style.setProperty("--deriva", `${Math.random() * 150 - 75}px`);
+            pedaco.style.setProperty("--rotacao", `${Math.random() * 900 - 450}deg`);
+            confetti.appendChild(pedaco);
+            pedaco.addEventListener("animationend", () => pedaco.remove(), { once: true });
+        }
+
+        rodada++;
+        if (rodada >= 14) clearInterval(intervalo);
+    }, 230);
+}
+</script>
+
+</body>
+</html>
